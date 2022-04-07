@@ -17,10 +17,7 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         
         pygame.display.set_caption("Alien Invasion by Dr Nicolas Schulz")
-        
-        #Set background color
-        self.bg_color = self.settings.bg_color
-        
+                
         #Create instance of the ship. 
         self.ship = Ship(self)
         
@@ -29,19 +26,24 @@ class AlienInvasion:
         while True:
             self._check_events()
             self._update_screen()
-            
-            
-            
+                   
     def _check_events(self):
         """Respond to keyboard and mouse events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                    #Move the ship to the right.
+                    self.ship.rect.x += 1
+                elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                    #Move the ship to the left.
+                    self.ship.rect.x -= 1
                 
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
         #Redraw the screen during each pass trhough the loop.
-        self.screen.fill(self.bg_color)
+        self.screen.fill(self.settings.bg_color)
         #Draw ship.
         self.ship.blitme()        
         #Make the most recently drawn screen visible.
