@@ -40,8 +40,8 @@ class AlienInvasion:
             self.ship.update()
             self._update_bullets()
             self._update_aliens()
-            self._update_screen()            
-                   
+            self._update_screen()  
+                                              
     def _check_events(self):
         """Respond to keyboard and mouse events."""
         for event in pygame.event.get():
@@ -93,6 +93,10 @@ class AlienInvasion:
         #Check for any bullets that have hit aliens.
         #If so, get rid of both, the bullet and the alien.
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+        if not self.aliens:
+            #If entire fleet is destroyed then erase existing bullets and create new fleet.
+            self.bullets.empty()
+            self._create_fleet()
     
     def _update_aliens(self):
         """Check if the fleet is at an edge, then update the positions of all aliens in the fleet."""
