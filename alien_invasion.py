@@ -51,7 +51,7 @@ class AlienInvasion:
                 self._check_keydown_events(event)    
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
-    
+                 
     def _check_keydown_events(self, event):
         """Respond to key presses"""
         if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
@@ -64,7 +64,9 @@ class AlienInvasion:
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
-            
+        # elif event.key == pygame.K_p:
+        #     self._pause()
+                        
     def _check_keyup_events(self, event):
         """Respond to key releases"""
         if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
@@ -91,13 +93,16 @@ class AlienInvasion:
             #Check that the bullets are actually removed. 
             # print(len(self.bullets)) 
         #Check for any bullets that have hit aliens.
-        #If so, get rid of both, the bullet and the alien.
+        self._check_bullet_alien_collisions()
+        
+    def _check_bullet_alien_collisions(self):
+        """Check for any bullets that have hit aliens. If so, get rid of both, the bullet and the alien."""
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
         if not self.aliens:
             #If entire fleet is destroyed then erase existing bullets and create new fleet.
             self.bullets.empty()
             self._create_fleet()
-    
+      
     def _update_aliens(self):
         """Check if the fleet is at an edge, then update the positions of all aliens in the fleet."""
         self._check_fleet_edges()
@@ -168,3 +173,5 @@ if __name__ == '__main__':
     #Make a game instance and run the game.
     ai = AlienInvasion()
     ai.run_game()
+
+  
