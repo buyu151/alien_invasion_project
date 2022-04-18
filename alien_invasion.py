@@ -96,6 +96,12 @@ class AlienInvasion:
         #Reset score from previous games.
         self.sb.prep_score()
         
+        #Reset level from rpevious games.
+        self.sb.prep_level()
+        
+        #Show initial ships available.
+        self.sb.prep_ships()
+        
         #Get rid of any remaining aliens and bullets.
         self.aliens.empty()
         self.bullets.empty()
@@ -158,6 +164,10 @@ class AlienInvasion:
             #Increase game speed for the next round.
             self.settings.increase_speed()
             
+            #Increase levle.
+            self.stats.level += 1
+            self.sb.prep_level()  
+            
         if collisions:
             #Update the score if an alien is hit.
             for aliens in collisions.values():
@@ -171,14 +181,18 @@ class AlienInvasion:
     def _ship_hit(self):
         """Respond to the ship being hit by an alien."""
         if self.stats.ships_left > 0:
-            #Decrement ships_left.
+            #Decrement ships_left and updatre scoreboard.
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
+                        
             #Get rid of any remaining aliens and bullets.
             self.aliens.empty()
             self.bullets.empty()
+            
             #Create a new fleet and center the player's ship.
             self._create_fleet()
             self.ship.center_ship()
+            
             #Pause
             sleep(0.5)
         else:
