@@ -157,16 +157,7 @@ class AlienInvasion:
         """Check for any bullets that have hit aliens. If so, get rid of both, the bullet and the alien."""
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
         if not self.aliens:
-            #If entire fleet is destroyed then erase existing bullets and create new fleet.
-            self.bullets.empty()
-            self._create_fleet()
-            
-            #Increase game speed for the next round.
-            self.settings.increase_speed()
-            
-            #Increase levle.
-            self.stats.level += 1
-            self.sb.prep_level()  
+           self._start_new_level()
             
         if collisions:
             #Update the score if an alien is hit.
@@ -177,6 +168,19 @@ class AlienInvasion:
             self.sb.prep_score()
             #Check for high score every time an alien is hit.
             self.sb.check_high_score()
+            
+    def _start_new_level(self):
+         #If entire fleet is destroyed then erase existing bullets and create new fleet.
+            self.bullets.empty()
+            self._create_fleet()
+            
+            #Increase game speed for the next round.
+            self.settings.increase_speed()
+            
+            #Increase levle.
+            self.stats.level += 1
+            self.sb.prep_level()  
+        
             
     def _ship_hit(self):
         """Respond to the ship being hit by an alien."""
