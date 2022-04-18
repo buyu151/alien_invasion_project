@@ -75,6 +75,8 @@ class AlienInvasion:
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active: 
             #The second argument in the if, prevents the button from beaing active if you are playing. 
+            #Reset the game settings.
+            self.settings.initialize_dynamic_settings()
             self._start_game()
             
     def _start_game(self):
@@ -145,6 +147,9 @@ class AlienInvasion:
             #If entire fleet is destroyed then erase existing bullets and create new fleet.
             self.bullets.empty()
             self._create_fleet()
+            
+            #Increase game speed for the next round.
+            self.settings.increase_speed()
             
     def _ship_hit(self):
         """Respond to the ship being hit by an alien."""
