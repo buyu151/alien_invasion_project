@@ -93,6 +93,9 @@ class AlienInvasion:
         #Start the game
         self.stats.game_active = True
         
+        #Reset score from previous games.
+        self.sb.prep_score()
+        
         #Get rid of any remaining aliens and bullets.
         self.aliens.empty()
         self.bullets.empty()
@@ -154,6 +157,14 @@ class AlienInvasion:
             
             #Increase game speed for the next round.
             self.settings.increase_speed()
+            
+        if collisions:
+            #Update the score if an alien is hit.
+            for aliens in collisions.values():
+                # any bullet that collides with an alien becomes a key in the collisions dictionary. The
+                # value associated with each bullet is a list of aliens it has collided with.
+                self.stats.score += self.settings.alien_points*len(aliens)
+            self.sb.prep_score()
             
     def _ship_hit(self):
         """Respond to the ship being hit by an alien."""
