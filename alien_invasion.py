@@ -165,6 +165,8 @@ class AlienInvasion:
                 # value associated with each bullet is a list of aliens it has collided with.
                 self.stats.score += self.settings.alien_points*len(aliens)
             self.sb.prep_score()
+            #Check for high score every time an alien is hit.
+            self.sb.check_high_score()
             
     def _ship_hit(self):
         """Respond to the ship being hit by an alien."""
