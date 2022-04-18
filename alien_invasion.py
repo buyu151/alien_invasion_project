@@ -199,6 +199,9 @@ class AlienInvasion:
             #Set flag for end game.
             self.stats.game_active = False
             
+            #Update highest score if it is beaten.
+            self.sb.store_new_high_score()
+            
             #Make mouse cursor reappear.
             pygame.mouse.set_visible(True)
         
