@@ -55,10 +55,7 @@ class AlienInvasion:
         self.play_button = Button(self, "Play")
         # This code creates an instance of Button with the label Play,
         # but it doesn’t draw the button to the screen. We’ll call the
-        # button’s draw_button() method in _update_screen()
-        
-        
-        
+        # button’s draw_button() method in _update_screen()    
                 
     def run_game(self):
         """Start the main loop for the game."""                
