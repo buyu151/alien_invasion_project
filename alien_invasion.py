@@ -2,6 +2,7 @@ import sys
 from time import sleep
 
 import pygame
+from pygame import mixer
 
 from settings import Settings
 from game_stats  import GameStats
@@ -17,6 +18,11 @@ class AlienInvasion:
     
     def __init__(self):
         """Initialize the game, and create game resources."""
+        #Load sounds.
+        self.bg_music = 'sounds/background.wav'
+        self.bullet_sound = 'sounds/laser.wav'
+        self.explosion_sound = 'sounds/explosion.wav'
+        
         pygame.init()
         self.settings =  Settings()
         
@@ -50,17 +56,31 @@ class AlienInvasion:
         # This code creates an instance of Button with the label Play,
         # but it doesn’t draw the button to the screen. We’ll call the
         # button’s draw_button() method in _update_screen()
+        
+        
+        
                 
     def run_game(self):
-        """Start the main loop for the game."""
-        while True:
+        """Start the main loop for the game."""                
+        #Background sound.
+        self._play_bg_music(self.bg_music) 
+        while True: 
             self._check_events()
             if self.stats.game_active:
+                #Screen updates.
                 self.ship.update()
                 self._update_bullets()
                 self._update_aliens()
             self._update_screen()  
-                                              
+            
+    def _play_bg_music(self, bg_music):
+        mixer.music.load(str(bg_music))
+        mixer.music.play(-1) #-1 tells it to loop the music. 
+        
+    def _play_sound_effect(self, filepath):
+        sound_effect = mixer.Sound(str(filepath))
+        sound_effect.play()
+                                                          
     def _check_events(self):
         """Respond to keyboard and mouse events."""
         for event in pygame.event.get():
@@ -121,6 +141,7 @@ class AlienInvasion:
         elif event.key == pygame.K_q:
             sys.exit()
         elif event.key == pygame.K_SPACE:
+            #Fire bullet
             self._fire_bullet()
         elif event.key == pygame.K_p and not self.stats.game_active:
             self._start_game()
@@ -137,6 +158,10 @@ class AlienInvasion:
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group."""
         if len(self.bullets) < self.settings.bullets_allowed:
+            #Bullet sound.
+            self._play_sound_effect(self.bullet_sound)
+            
+            #Add bullet to the bullets group.
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
             
@@ -154,7 +179,7 @@ class AlienInvasion:
         self._check_bullet_alien_collisions()
         
     def _check_bullet_alien_collisions(self):
-        """Check for any bullets that have hit aliens. If so, get rid of both, the bullet and the alien."""
+        """Check for any bullets that have hit aliens. If so, get rid of both, the bullet and the alien.""" 
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
         if not self.aliens:
            self._start_new_level()
@@ -165,6 +190,10 @@ class AlienInvasion:
                 # any bullet that collides with an alien becomes a key in the collisions dictionary. The
                 # value associated with each bullet is a list of aliens it has collided with.
                 self.stats.score += self.settings.alien_points*len(aliens)
+                
+                #Add explosioin sound for every bullet collision added.
+                self._play_sound_effect(self.explosion_sound) 
+                
             self.sb.prep_score()
             #Check for high score every time an alien is hit.
             self.sb.check_high_score()
