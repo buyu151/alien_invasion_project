@@ -18,7 +18,7 @@ class AlienInvasion:
     
     def __init__(self):
         """Initialize the game, and create game resources."""
-        #Load sounds.
+        #Load sounds paths.
         self.bg_music = 'sounds/background.wav'
         self.bullet_sound = 'sounds/laser.wav'
         self.explosion_sound = 'sounds/explosion.wav'
@@ -26,6 +26,14 @@ class AlienInvasion:
         pygame.init()
         self.settings =  Settings()
         
+        #Load Background Music. Mixer sounds has to be loaded after pygame.init().
+        mixer.music.load(self.bg_music)
+        
+        #Load sound effects.
+        self.bullet_se = mixer.Sound(self.bullet_sound)
+        self.explosion_se = mixer.Sound(self.explosion_sound)
+        
+        #Setup game screen
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         
         #If you want it in full screen mode:
@@ -60,7 +68,7 @@ class AlienInvasion:
     def run_game(self):
         """Start the main loop for the game."""                
         #Background sound.
-        self._play_bg_music(self.bg_music) 
+        self._play_bg_music() 
         while True: 
             self._check_events()
             if self.stats.game_active:
@@ -70,12 +78,11 @@ class AlienInvasion:
                 self._update_aliens()
             self._update_screen()  
             
-    def _play_bg_music(self, bg_music):
-        mixer.music.load(str(bg_music))
-        mixer.music.play(-1) #-1 tells it to loop the music. 
+    def _play_bg_music(self):
+        #-1 tells it to loop the music. 
+        mixer.music.play(-1) 
         
-    def _play_sound_effect(self, filepath):
-        sound_effect = mixer.Sound(str(filepath))
+    def _play_sound_effect(self, sound_effect):
         sound_effect.play()
                                                           
     def _check_events(self):
@@ -156,7 +163,7 @@ class AlienInvasion:
         """Create a new bullet and add it to the bullets group."""
         if len(self.bullets) < self.settings.bullets_allowed:
             #Bullet sound.
-            self._play_sound_effect(self.bullet_sound)
+            self._play_sound_effect(self.bullet_se)
             
             #Add bullet to the bullets group.
             new_bullet = Bullet(self)
@@ -189,7 +196,7 @@ class AlienInvasion:
                 self.stats.score += self.settings.alien_points*len(aliens)
                 
                 #Add explosioin sound for every bullet collision added.
-                self._play_sound_effect(self.explosion_sound) 
+                self._play_sound_effect(self.explosion_se) 
                 
             self.sb.prep_score()
             #Check for high score every time an alien is hit.
