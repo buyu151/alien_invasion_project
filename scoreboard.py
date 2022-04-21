@@ -17,8 +17,8 @@ class Scoreboard:
         self.stats = ai_game.stats
         
         #Fonts settings for scoring information.
-        self.text_color = (30, 30, 30)
-        self.font = pygame.font.SysFont(None, 48)
+        self.text_color = (238, 75, 43)
+        self.font = pygame.font.Font('fonts/Halo3.ttf', 30)
         
         #Prepare the initial score images.
         self.prep_score()
@@ -37,7 +37,7 @@ class Scoreboard:
         #format the score to include comma separators in large numbers
         score_str = "Score {:,}".format(rounded_score)
         
-        self.score_image = self.font.render(score_str, True, self.text_color, self.settings.bg_color)
+        self.score_image = self.font.render(score_str, False, self.text_color, self.settings.bg_color)
         
         #Display the score at the top right of the screen.
         self.score_rect = self.score_image.get_rect()
@@ -47,7 +47,7 @@ class Scoreboard:
     def prep_level(self):
         """Turn the levle into a render image."""
         level_str = "Lvl. " + str(self.stats.level)
-        self.level_image = self.font.render(level_str, True, self.text_color, self.settings.bg_color)
+        self.level_image = self.font.render(level_str, False, self.text_color, self.settings.bg_color)
         
         #Position the level below the score. 
         self.level_rect = self.level_image.get_rect()
@@ -67,7 +67,7 @@ class Scoreboard:
         """Turne the high score into a render image."""
         high_score = round(self.stats.high_score, -1)
         high_score_str = "High Score {:,}".format(high_score)
-        self.high_score_image = self.font.render(high_score_str, True, self.text_color, self.settings.bg_color)
+        self.high_score_image = self.font.render(high_score_str, False, self.text_color, self.settings.bg_color)
         
         #Center the high score at the top of the screen.
         self.high_score_rect = self.high_score_image.get_rect()

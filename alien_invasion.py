@@ -1,5 +1,6 @@
 import sys
 from time import sleep
+from turtle import Screen
 
 import pygame
 from pygame import mixer
@@ -43,6 +44,10 @@ class AlienInvasion:
         
         pygame.display.set_caption("Alien Invasion by Dr Nicolas Schulz")
         
+        #Background image
+        self.bg_img = pygame.image.load('images/background.jpg')
+        self.bg_img = pygame.transform.scale(self.bg_img,(self.settings.screen_width,self.settings.screen_height))
+        
         #Create and instaqnce to store game statistics.
         self.stats =GameStats(self)
         
@@ -75,7 +80,7 @@ class AlienInvasion:
                 #Screen updates.
                 self.ship.update()
                 self._update_bullets()
-                self._update_aliens()
+                self._update_aliens()          
             self._update_screen()  
             
     def _play_bg_music(self):
@@ -312,7 +317,10 @@ class AlienInvasion:
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
         #Redraw the screen during each pass trhough the loop.
-        self.screen.fill(self.settings.bg_color)
+        # self.screen.fill(self.settings.bg_color)
+        #Background image
+        self.screen.blit(self.bg_img,(0,0))
+        
         
         #Draw ship.
         self.ship.blitme()
