@@ -26,7 +26,7 @@ class Button:
     # want to display as an image.     
     def _prep_msg(self, msg):
         """Turn msg into a rendered image and center text on the button."""
-        self.msg_image = self.font.render(msg, False, self.text_color, self.button_color) 
+        self.msg_image = self.font.render(msg, True, self.text_color, self.button_color) 
         #Second argument to false if you don't want AA on yourt font (i.e. if you want pixel style on).
         self.msg_image_rect = self.msg_image.get_rect()
         self.msg_image_rect.center = self.rect.center
