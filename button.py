@@ -11,7 +11,7 @@ class Button:
         self.width, self.height = 200, 50
         self.button_color = (0, 255, 0)
         self.text_color = (255, 255, 255)
-        self.font = pygame.font.Font('fonts/Halo3.ttf', 48) 
+        self.font = pygame.font.Font('fonts/DEADCRT.ttf', 40) 
         #The None argument tells Pygame to use the default font, and 48
         # specifies the size of the text.
         

@@ -18,7 +18,7 @@ class Scoreboard:
         
         #Fonts settings for scoring information.
         self.text_color = (238, 75, 43)
-        self.font = pygame.font.Font('fonts/Halo3.ttf', 30)
+        self.font = pygame.font.Font('fonts/DEADCRT.ttf', 30)
         
         #Prepare the initial score images.
         self.prep_score()
@@ -35,7 +35,7 @@ class Scoreboard:
         # 1000, and so on
         
         #format the score to include comma separators in large numbers
-        score_str = "Score {:,}".format(rounded_score)
+        score_str = "{:,}".format(rounded_score)
         
         self.score_image = self.font.render(score_str, True, self.text_color, self.settings.bg_color)
         
